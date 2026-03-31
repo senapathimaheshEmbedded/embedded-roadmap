@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mahesh → Qualcomm | Embedded Roadmap</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;font-size:14px}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* TOP HEADER */
+.top{background:linear-gradient(135deg,#0d2818,#0d1117);border-bottom:2px solid #2ea043;padding:20px 20px 16px}
+.top h1{color:#3fb950;font-size:1.2rem;margin-bottom:4px}
+.top p{color:#8b949e;font-size:0.78rem}
+.top .meta{display:flex;gap:16px;margin-top:10px;flex-wrap:wrap}
+.top .meta span{font-size:0.72rem;background:#161b22;border:1px solid #21262d;padding:3px 10px;border-radius:12px;color:#8b949e}
+.top .meta span b{color:#3fb950}
+
+/* PROGRESS BAR */
+.progress-wrap{padding:14px 20px;background:#0d1117;border-bottom:1px solid #21262d}
+.progress-label{display:flex;justify-content:space-between;font-size:0.72rem;color:#8b949e;margin-bottom:6px}
+.progress-bar{background:#21262d;border-radius:4px;height:6px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#2ea043,#56d364);height:100%;border-radius:4px;transition:width 0.4s}
+
+/* REALITY BOX */
+.reality{background:#1a1208;border:1px solid #d29922;border-radius:8px;margin:14px;padding:14px;font-size:0.8rem;color:#e3b341;line-height:1.7}
+.reality b{color:#f0c040}
+
+/* NAV TABS */
+.nav{display:flex;overflow-x:auto;gap:4px;padding:0 14px;border-bottom:1px solid #21262d;background:#0d1117;position:sticky;top:0;z-index:10}
+.nav button{background:none;border:none;border-bottom:2px solid transparent;color:#8b949e;padding:10px 14px;font-size:0.78rem;cursor:pointer;white-space:nowrap;font-family:inherit;transition:color 0.15s}
+.nav button.active{color:#3fb950;border-bottom-color:#3fb950}
+.nav button:hover{color:#e6edf3}
+.tab{display:none;padding:14px;max-width:900px;margin:0 auto}
+.tab.active{display:block}
+
+/* TIMELINE BAR */
+.tl{display:grid;grid-template-columns:repeat(5,1fr);border-radius:8px;overflow:hidden;border:1px solid #21262d;margin-bottom:14px}
+.tls{padding:9px 6px;text-align:center}
+.tls .mo{font-size:0.75rem;font-weight:700}
+.tls .lb{font-size:0.65rem;color:#8b949e;margin-top:1px}
+.t1{background:#1a0d08}.t1 .mo{color:#f0916a}
+.t2{background:#1a1208}.t2 .mo{color:#e3b341}
+.t3{background:#0d1a0d}.t3 .mo{color:#3fb950}
+.t4{background:#0d1525}.t4 .mo{color:#58a6ff}
+
+/* PHASE CARDS */
+.phase{background:#161b22;border:1px solid #21262d;border-radius:8px;margin-bottom:12px;overflow:hidden}
+.ph{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;background:#0d1117;transition:background 0.15s}
+.ph:hover{background:#161b22}
+.ph-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;flex-shrink:0}
+.ph-info{flex:1}
+.ph-title{font-size:0.9rem;font-weight:600;color:#e6edf3}
+.ph-sub{font-size:0.72rem;color:#8b949e;margin-top:2px}
+.badge{font-size:0.68rem;padding:2px 8px;border-radius:12px;font-weight:600}
+.chev{color:#8b949e;font-size:11px;transition:transform 0.2s;margin-left:auto;flex-shrink:0}
+.phase.open .chev{transform:rotate(180deg)}
+.pb{display:none;padding:14px;border-top:1px solid #21262d}
+.phase.open .pb{display:block}
+
+/* RESOURCE LINKS */
+.res{display:flex;align-items:flex-start;gap:10px;padding:9px 10px;border-radius:6px;border:1px solid #21262d;margin-bottom:7px;text-decoration:none;background:#0d1117;transition:border-color 0.15s;color:inherit}
+.res:hover{border-color:#2ea043}
+.res-ico{font-size:1rem;flex-shrink:0;margin-top:1px}
+.res-name{font-size:0.8rem;color:#58a6ff;font-weight:600}
+.res-desc{font-size:0.72rem;color:#8b949e;margin-top:2px;line-height:1.5}
+.res-why{font-size:0.7rem;color:#3fb950;margin-top:3px}
+
+/* TAGS */
+.topics{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.tag{background:#1f2937;color:#9ca3af;font-size:0.68rem;padding:2px 7px;border-radius:4px}
+
+/* WARN / OK */
+.warn{background:#1a1005;border-left:3px solid #d29922;padding:9px 12px;border-radius:0 6px 6px 0;font-size:0.76rem;color:#e3b341;line-height:1.6;margin-top:10px}
+.ok{background:#0d2010;border-left:3px solid #2ea043;padding:9px 12px;border-radius:0 6px 6px 0;font-size:0.76rem;color:#3fb950;line-height:1.6;margin-top:10px}
+
+/* SECTION LABEL */
+.sl{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.07em;color:#8b949e;margin:12px 0 6px}
+
+/* CHECKLIST */
+.chk{list-style:none}
+.chk li{display:flex;gap:8px;font-size:0.78rem;padding:4px 0;line-height:1.5}
+.chk li.done{color:#3fb950}
+.chk li.done::before{content:"✓";color:#3fb950;flex-shrink:0;font-weight:700}
+.chk li.todo{color:#c9d1d9}
+.chk li.todo::before{content:"→";color:#2ea043;flex-shrink:0}
+.chk li.locked{color:#484f58}
+.chk li.locked::before{content:"🔒";flex-shrink:0;font-size:0.7rem}
+
+/* SCHEDULE */
+.sched{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scard{background:#0d1117;border:1px solid #21262d;border-radius:6px;padding:10px 12px}
+.scard .day{font-size:0.72rem;color:#3fb950;font-weight:600;margin-bottom:5px}
+.scard .act{font-size:0.76rem;color:#c9d1d9;line-height:1.6}
+
+/* INTERVIEW TABLE */
+.itbl{width:100%;border-collapse:collapse;font-size:0.76rem}
+.itbl th{background:#161b22;color:#8b949e;padding:7px 10px;text-align:left;font-weight:600;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em}
+.itbl td{padding:8px 10px;border-top:1px solid #21262d;color:#c9d1d9;vertical-align:top;line-height:1.5}
+.itbl tr:hover td{background:#161b22}
+
+/* HARDWARE TABLE */
+.htbl{width:100%;border-collapse:collapse;font-size:0.76rem}
+.htbl th{background:#161b22;color:#8b949e;padding:7px 10px;text-align:left;font-weight:600;font-size:0.68rem;text-transform:uppercase}
+.htbl td{padding:8px 10px;border-top:1px solid #21262d;color:#c9d1d9;vertical-align:top;line-height:1.5}
+
+/* DAY COUNTER */
+.counter{background:#161b22;border:1px solid #2ea043;border-radius:8px;padding:14px;margin-bottom:14px;text-align:center}
+.counter .days{font-size:2.5rem;font-weight:700;color:#3fb950;line-height:1}
+.counter .label{font-size:0.75rem;color:#8b949e;margin-top:4px}
+.counter .started{font-size:0.7rem;color:#484f58;margin-top:6px}
+
+/* GITHUB LINK */
+.gh-link{display:inline-flex;align-items:center;gap:6px;background:#161b22;border:1px solid #21262d;border-radius:6px;padding:6px 12px;font-size:0.76rem;color:#58a6ff;text-decoration:none;margin-bottom:14px;transition:border-color 0.15s}
+.gh-link:hover{border-color:#58a6ff}
+
+@media(max-width:500px){
+  .sched{grid-template-columns:1fr}
+  .tl{grid-template-columns:repeat(3,1fr)}
+  .top .meta{gap:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>🎯 Mahesh → Qualcomm Firmware Engineer</h1>
+  <p>No shortcuts. No libraries. Everything bare metal. 18 months of real work.</p>
+  <div class="meta">
+    <span>Started: <b>Mar 31, 2026</b></span>
+    <span>Target: <b>Sep 2027</b></span>
+    <span>Daily: <b>1–2 hrs</b></span>
+    <span>Board: <b>STM32F103</b></span>
+    <span>Goal: <b>Qualcomm India — Firmware Eng.</b></span>
+  </div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>Overall progress</span>
+    <span id="pct">0% — Day 1 of 548</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="pfill" style="width:0%"></div></div>
+</div>
+
+<div style="padding:14px 14px 0;max-width:900px;margin:0 auto">
+  <div class="counter">
+    <div class="days" id="day-count">1</div>
+    <div class="label">days into the journey</div>
+    <div class="started">Started March 31, 2026 · Target September 2027</div>
+  </div>
+
+  <a class="gh-link" href="https://github.com/senapathimaheshEmbedded" target="_blank">
+    ⭐ github.com/senapathimaheshEmbedded
+  </a>
+</div>
+
+<div class="reality">
+  <b>Brutal reality:</b> 1–2 hrs/day = 18 months. Not 6, not 12. <b>18.</b> Accept this now and you won't quit at month 8 thinking you're behind. Every commit you make is a vote for the person you're becoming. Every day you skip is a vote against it. The plan is set. Now it's just execution.
+</div>
+
+<div class="nav">
+  <button class="active" onclick="show('phases',this)">📋 Phases</button>
+  <button onclick="show('schedule',this)">🕐 Schedule</button>
+  <button onclick="show('interview',this)">🎯 Interview</button>
+  <button onclick="show('buynow',this)">🛒 Hardware</button>
+  <button onclick="show('questions',this)">❓ 30 Questions</button>
+</div>
+
+<!-- PHASES -->
+<div id="phases" class="tab active">
+<div class="tl">
+  <div class="tls t1"><div class="mo">M 1–3</div><div class="lb">C mastery</div></div>
+  <div class="tls t2"><div class="mo">M 4–7</div><div class="lb">Bare metal</div></div>
+  <div class="tls t2"><div class="mo">M 8–11</div><div class="lb">RTOS+Linux</div></div>
+  <div class="tls t3"><div class="mo">M 12–15</div><div class="lb">Portfolio</div></div>
+  <div class="tls t4"><div class="mo">M 16–18</div><div class="lb">Interview</div></div>
+</div>
+
+<!-- P1 -->
+<div class="phase open">
+  <div class="ph" onclick="this.parentElement.classList.toggle('open')">
+    <div class="ph-num" style="background:#2d1005;color:#f0916a">1</div>
+    <div class="ph-info"><div class="ph-title">C Programming — Embedded Level</div><div class="ph-sub">Month 1–3 · No hardware yet · Pure C, pure discipline</div></div>
+    <span class="badge" style="background:#2d1005;color:#f0916a">🔄 Current</span>
+    <span class="chev">▼</span>
+  </div>
+  <div class="pb">
+    <div class="topics"><span class="tag">Pointers</span><span class="tag">Memory layout</span><span class="tag">Bitwise ops</span><span class="tag">Structs/Unions</span><span class="tag">Volatile/const</span><span class="tag">Function pointers</span><span class="tag">Linked lists</span><span class="tag">Circular buffer</span></div>
+    <div class="sl">Resources — watch in this order</div>
+    <a class="res" href="https://www.youtube.com/watch?v=KJgsSFOSQv0" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">freeCodeCamp — C Full Course (4.5 hrs)</div><div class="res-desc">Complete C from scratch. Watch at 1.5x. Focus on the pointers section.</div><div class="res-why">⭐ Watch this in Week 1</div></div></a>
+    <a class="res" href="https://www.youtube.com/@JacobSorber" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Jacob Sorber — C for Embedded (YouTube channel)</div><div class="res-desc">Volatile, memory-mapped registers, function pointers, bit manipulation. Exactly what Qualcomm tests.</div><div class="res-why">⭐⭐ PRIMARY resource for all of Phase 1</div></div></a>
+    <a class="res" href="https://www.youtube.com/playlist?list=PL9IEJIKnBJjG5H0ylFAzpUWlnztahLLnd" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Neso Academy — C Programming (full playlist)</div><div class="res-desc">Structures, unions, bit-fields, memory classes. Very clean explanations.</div><div class="res-why">Use as reference when Jacob Sorber moves too fast</div></div></a>
+    <a class="res" href="https://www.youtube.com/@LowLevelLearning" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Low Level Learning — Pointers & Memory internals</div><div class="res-desc">How C code turns into machine instructions. Stack frames, heap, pointers at assembly level.</div><div class="res-why">Critical for understanding WHY embedded C is different</div></div></a>
+    <div class="warn">⚠️ Do NOT move to Phase 2 until you pass all 4 exit criteria below.</div>
+    <div class="sl">Phase 1 exit checklist</div>
+    <ul class="chk">
+      <li class="todo">Write a linked list, stack, circular buffer from scratch — zero reference</li>
+      <li class="todo">Explain volatile: what it does, why it matters, give a real embedded use case</li>
+      <li class="todo">Toggle bit 5 of a register at 0x40020014 — write the exact C line from memory</li>
+      <li class="todo">Explain endianness and why it matters when reading a 32-bit sensor register</li>
+    </ul>
+  </div>
+</div>
+
+<!-- P2 -->
+<div class="phase">
+  <div class="ph" onclick="this.parentElement.classList.toggle('open')">
+    <div class="ph-num" style="background:#1a1208;color:#e3b341">2</div>
+    <div class="ph-info"><div class="ph-title">Digital Logic + Microprocessor Architecture</div><div class="ph-sub">Month 2–3 (parallel with Phase 1 week 5+) · No hardware yet</div></div>
+    <span class="badge" style="background:#1a1208;color:#e3b341">⏳ Upcoming</span>
+    <span class="chev">▼</span>
+  </div>
+  <div class="pb">
+    <div class="topics"><span class="tag">Number systems</span><span class="tag">Logic gates</span><span class="tag">Flip-flops</span><span class="tag">Von Neumann</span><span class="tag">Harvard arch</span><span class="tag">RISC vs CISC</span><span class="tag">Pipelining</span><span class="tag">Memory mapped IO</span></div>
+    <a class="res" href="https://www.youtube.com/playlist?list=PLBlnK6fEyqRjMH3mWf6kwqiTbT798eAOm" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Neso Academy — Digital Electronics (full playlist)</div><div class="res-desc">Gates, flip-flops, counters, state machines. 2 videos/day alongside Phase 1.</div><div class="res-why">⭐ Primary resource for all digital fundamentals</div></div></a>
+    <a class="res" href="https://www.youtube.com/playlist?list=PL8dPuuaLjXtNlUrzyH5r6jN9ulI9OFk87" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Crash Course Computer Science (PBS) — Episodes 1–10</div><div class="res-desc">Best visual explanation of Von Neumann, Harvard architecture, pipelining that exists for free. 10 mins each.</div><div class="res-why">Watch episodes 1–10 only. Perfect for 1-hr evenings.</div></div></a>
+    <a class="res" href="https://www.youtube.com/playlist?list=PLbtzT1TYeoMjNOGEiaRmm_vMIwUAidnQz" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">NPTEL — Computer Architecture (IIT professors)</div><div class="res-desc">Deep dive on pipelining, RISC/CISC, memory hierarchy. Use selectively for topics Crash Course is too shallow on.</div><div class="res-why">Use for pipelining and memory-mapped IO lectures specifically</div></div></a>
+  </div>
+</div>
+
+<!-- P3 -->
+<div class="phase">
+  <div class="ph" onclick="this.parentElement.classList.toggle('open')">
+    <div class="ph-num" style="background:#2d0a00;color:#ff6b4a">3</div>
+    <div class="ph-info"><div class="ph-title">ARM Cortex-M + Bare Metal Programming</div><div class="ph-sub">Month 4–7 · STM32 board in hand · Most critical phase</div></div>
+    <span class="badge" style="background:#2d0a00;color:#ff6b4a">🔥 Most Critical</span>
+    <span class="chev">▼</span>
+  </div>
+  <div class="pb">
+    <div class="topics"><span class="tag">ARM registers</span><span class="tag">Exception model</span><span class="tag">Interrupt vector</span><span class="tag">GPIO bare metal</span><span class="tag">UART driver</span><span class="tag">SPI driver</span><span class="tag">I2C driver</span><span class="tag">Linker scripts</span><span class="tag">Startup code</span><span class="tag">GDB debugging</span></div>
+    <a class="res" href="https://www.youtube.com/playlist?list=PLPW8O6W-1chwyTzI3BHwBLbcQxJamKfc" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Miro Samek — Modern Embedded Systems Programming</div><div class="res-desc">THE best free resource on ARM Cortex-M bare metal. Shows actual registers. Code along with every episode.</div><div class="res-why">⭐⭐ PRIMARY resource. Non-negotiable. Watch every episode.</div></div></a>
+    <a class="res" href="https://www.youtube.com/@FastbitEmbeddedBrainAcademy" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Fastbit Embedded Brain Academy</div><div class="res-desc">STM32 bare metal: GPIO, UART, SPI, I2C, DMA — register-level. No HAL. Pure CMSIS.</div><div class="res-why">⭐⭐ Watch "STM32 bare metal" and "MCU peripheral driver development" series</div></div></a>
+    <a class="res" href="https://www.youtube.com/@Controllers_Tech" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Controllers Tech — STM32 register-level</div><div class="res-desc">Clock config, timers, ADC at register level. Use for specific peripherals Fastbit doesn't cover.</div><div class="res-why">Supplement for specific peripherals</div></div></a>
+    <a class="res" href="https://www.youtube.com/watch?v=d9Pz__kLYbk" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Low Level Learning — Linker Scripts & Startup Code</div><div class="res-desc">How firmware actually boots — linker scripts, vector table, startup .s file. Qualcomm will ask this.</div><div class="res-why">Watch before building your first project from scratch</div></div></a>
+    <div class="warn">⚠️ Rule: if you used a library to do it, it doesn't count. UART? Write it from the STM32 reference manual only. Every peripheral = register-level. Non-negotiable.</div>
+    <div class="sl">Phase 3 exit checklist</div>
+    <ul class="chk">
+      <li class="locked">Write a UART driver from scratch using only the STM32 reference manual</li>
+      <li class="locked">Explain ARM exception model: interrupt trigger to ISR, cycle by cycle</li>
+      <li class="locked">Write a startup file and linker script from scratch</li>
+      <li class="locked">Debug a memory corruption bug using GDB + OpenOCD on real hardware</li>
+    </ul>
+  </div>
+</div>
+
+<!-- P4 -->
+<div class="phase">
+  <div class="ph" onclick="this.parentElement.classList.toggle('open')">
+    <div class="ph-num" style="background:#0d1a0d;color:#3fb950">4</div>
+    <div class="ph-info"><div class="ph-title">RTOS — FreeRTOS</div><div class="ph-sub">Month 8–9 · On STM32 · The Qualcomm differentiator</div></div>
+    <span class="badge" style="background:#0d2010;color:#3fb950">Differentiator</span>
+    <span class="chev">▼</span>
+  </div>
+  <div class="pb">
+    <div class="topics"><span class="tag">Tasks & scheduler</span><span class="tag">Queues</span><span class="tag">Semaphores</span><span class="tag">Mutexes</span><span class="tag">Priority inversion</span><span class="tag">Context switching</span><span class="tag">Stack overflow detection</span></div>
+    <a class="res" href="https://www.youtube.com/playlist?list=PLEBQazB0HUyQ4hAPU1cJED6t3DU0h34bz" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Shawn Hymel / DigiKey — Introduction to RTOS</div><div class="res-desc">Best free RTOS series. Tasks, queues, semaphores, mutexes, deadlock, priority inversion on FreeRTOS + STM32.</div><div class="res-why">⭐⭐ PRIMARY resource. Code along on your STM32.</div></div></a>
+    <a class="res" href="https://www.youtube.com/@FastbitEmbeddedBrainAcademy" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Fastbit — FreeRTOS internals on STM32</div><div class="res-desc">Context switching internals, how the FreeRTOS scheduler works at assembly level.</div><div class="res-why">Watch after DigiKey series for deeper internals</div></div></a>
+    <div class="sl">Phase 4 exit checklist</div>
+    <ul class="chk">
+      <li class="locked">Build a producer-consumer system with two tasks via queue on STM32</li>
+      <li class="locked">Explain priority inversion — what, when, how priority inheritance solves it</li>
+      <li class="locked">Explain context switching register-by-register</li>
+      <li class="locked">Explain mutex vs binary semaphore — not just what, but WHEN to use which</li>
+    </ul>
+  </div>
+</div>
+
+<!-- P5 -->
+<div class="phase">
+  <div class="ph" onclick="this.parentElement.classList.toggle('open')">
+    <div class="ph-num" style="background:#0d1a0d;color:#3fb950">5</div>
+    <div class="ph-info"><div class="ph-title">Embedded Linux</div><div class="ph-sub">Month 10–11 · Raspberry Pi or PC · Qualcomm modem stack runs on Linux</div></div>
+    <span class="badge" style="background:#0d2010;color:#3fb950">Required</span>
+    <span class="chev">▼</span>
+  </div>
+  <div class="pb">
+    <div class="topics"><span class="tag">Boot sequence</span><span class="tag">Device tree</span><span class="tag">Processes & threads</span><span class="tag">IPC</span><span class="tag">System calls</span><span class="tag">Basic driver</span><span class="tag">Toolchain</span></div>
+    <a class="res" href="https://www.youtube.com/playlist?list=PLVxiWMqQvWFW9NnC0ZoFZ1VmfGmR7TVQO" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">Bootlin — Embedded Linux Training</div><div class="res-desc">Professional embedded Linux training — toolchain, bootloader, kernel, device drivers. Same content companies pay thousands for.</div><div class="res-why">⭐⭐ PRIMARY resource. Industry standard.</div></div></a>
+    <a class="res" href="https://www.youtube.com/watch?v=jLyDd_mq-RE" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">freeCodeCamp — Linux Full Course</div><div class="res-desc">Commands, file system, processes, memory management. Watch first 3 hours before Bootlin.</div><div class="res-why">Prerequisite before starting Bootlin series</div></div></a>
+    <a class="res" href="https://www.youtube.com/playlist?list=PLCGpd0Do5-I3b5TtyqeF1UdyD4C-S-dMa" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">The Linux Channel — Kernel & Driver Development</div><div class="res-desc">Writing kernel modules, char device drivers, platform drivers.</div><div class="res-why">Watch after Bootlin for driver development depth</div></div></a>
+  </div>
+</div>
+
+<!-- P6 -->
+<div class="phase">
+  <div class="ph" onclick="this.parentElement.classList.toggle('open')">
+    <div class="ph-num" style="background:#0d1525;color:#58a6ff">6</div>
+    <div class="ph-info"><div class="ph-title">Portfolio Project — Build Your Proof</div><div class="ph-sub">Month 12–15 · GitHub visible · This gets you the interview call</div></div>
+    <span class="badge" style="background:#0d1525;color:#58a6ff">Gets you hired</span>
+    <span class="chev">▼</span>
+  </div>
+  <div class="pb">
+    <div class="ok">✓ Pick ONE project. Build it completely. Document it thoroughly. Be able to explain every line in an interview. One great project beats five average ones.</div>
+    <div class="sl">Pick one (and only one)</div>
+    <ul class="chk">
+      <li class="locked"><b>Custom RTOS scheduler</b> on STM32 — round-robin + priority scheduling, context switch, task API from scratch. No FreeRTOS.</li>
+      <li class="locked"><b>Bare-metal sensor hub</b> — STM32 + 3 sensors (I2C + SPI + UART) + SD card logging. Every driver hand-written.</li>
+      <li class="locked"><b>Bootloader</b> — validates firmware CRC, supports UART firmware update, jumps to application. Qualcomm loves this.</li>
+    </ul>
+    <div class="warn">⚠️ A GitHub with Arduino projects = resume binned at Qualcomm. One well-documented bare-metal STM32 bootloader = interview call. Quality over quantity.</div>
+  </div>
+</div>
+
+<!-- P7 -->
+<div class="phase">
+  <div class="ph" onclick="this.parentElement.classList.toggle('open')">
+    <div class="ph-num" style="background:#0d1525;color:#58a6ff">7</div>
+    <div class="ph-info"><div class="ph-title">Interview Grind</div><div class="ph-sub">Month 16–18 · Qualcomm-specific prep · Final push</div></div>
+    <span class="badge" style="background:#0d1525;color:#58a6ff">Final phase</span>
+    <span class="chev">▼</span>
+  </div>
+  <div class="pb">
+    <a class="res" href="https://www.youtube.com/c/NeetCode" target="_blank"><span class="res-ico">▶️</span><div><div class="res-name">NeetCode — DSA (do in C, not Python)</div><div class="res-desc">Qualcomm round 1 has DSA. Arrays, linked lists, sorting, basic trees in C. Easy + medium only.</div><div class="res-why">2 problems/day in C during Month 16–18</div></div></a>
+    <div class="ok">✓ See the "30 Questions" tab for Qualcomm-specific interview prep.</div>
+  </div>
+</div>
+</div>
+
+<!-- SCHEDULE -->
+<div id="schedule" class="tab">
+  <div style="background:#161b22;border:1px solid #21262d;border-radius:8px;padding:14px;margin-bottom:12px">
+    <div style="font-size:0.85rem;font-weight:600;color:#3fb950;margin-bottom:6px">Your weekly schedule — 1–2 hrs/day</div>
+    <div style="font-size:0.76rem;color:#8b949e;line-height:1.7">~10 hrs/week. Guard them. When you sit down, you work. No scrolling.</div>
+  </div>
+  <div class="sched">
+    <div class="scard"><div class="day">Monday</div><div class="act">1 hr — watch 1 resource video<br>1 hr — code along immediately</div></div>
+    <div class="scard"><div class="day">Tuesday</div><div class="act">1 hr — code practice only<br>No new concepts. Reinforce Mon.</div></div>
+    <div class="scard"><div class="day">Wednesday</div><div class="act">1 hr — new concept video<br>1 hr — implement in code</div></div>
+    <div class="scard"><div class="day">Thursday</div><div class="act">1 hr — debug previous code<br>Fix what broke on Wed.</div></div>
+    <div class="scard"><div class="day">Friday</div><div class="act">1 hr — new video/concept<br>1 hr — write it without reference</div></div>
+    <div class="scard"><div class="day">Saturday</div><div class="act">2–3 hrs — project / hardware work<br>Hands-on time. No shortcuts.</div></div>
+    <div class="scard"><div class="day">Sunday</div><div class="act">1 hr — review week's learnings<br>Update GitHub log. Plan next week.</div></div>
+  </div>
+  <div class="warn" style="margin-top:12px">⚠️ The #1 killer: watching videos without coding. 50% watching, 50% coding from Day 1. Watching alone is entertainment, not learning.</div>
+</div>
+
+<!-- INTERVIEW -->
+<div id="interview" class="tab">
+  <div style="font-size:0.85rem;font-weight:600;color:#3fb950;margin-bottom:10px">Qualcomm Firmware Interview — 4 Rounds</div>
+  <table class="itbl">
+    <tr><th>Round</th><th>What they test</th><th>How to survive it</th></tr>
+    <tr><td style="color:#58a6ff;font-weight:600;white-space:nowrap">1 — Online</td><td>C output questions, bitwise puzzles, pointer arithmetic, basic DSA, OS fundamentals</td><td>30 mins C puzzles daily from Month 16. LeetCode easy in C — not Python.</td></tr>
+    <tr><td style="color:#58a6ff;font-weight:600;white-space:nowrap">2 — Tech 1</td><td>Write a driver live. Interrupt handling. Volatile. Memory layout. Register bit manipulation.</td><td>Your Phase 3 bare metal work. If you wrote drivers yourself, this is passable.</td></tr>
+    <tr><td style="color:#58a6ff;font-weight:600;white-space:nowrap">3 — Tech 2</td><td>RTOS internals. Priority inversion. DMA vs interrupt. Bootloader. Cache. Linker scripts.</td><td>Phases 4–5. The 30 questions. Practice explaining out loud — not just knowing.</td></tr>
+    <tr><td style="color:#58a6ff;font-weight:600;white-space:nowrap">4 — HM</td><td>System design: "design firmware for X." Communication. How you handle gaps.</td><td>Walk through your portfolio project. "I don't know X but I'd approach it by..." beats bluffing every time.</td></tr>
+  </table>
+  <div class="ok" style="margin-top:12px">✓ The phrase that gets freshers rejected: "I used a library for that." Never say it. Everything in your answers must be register-level or RTOS API level.</div>
+</div>
+
+<!-- HARDWARE -->
+<div id="buynow" class="tab">
+  <div style="font-size:0.85rem;font-weight:600;color:#3fb950;margin-bottom:10px">Hardware to buy — total ~₹1,350 (buy now)</div>
+  <table class="htbl">
+    <tr><th>Item</th><th>Why</th><th>Cost</th></tr>
+    <tr><td style="color:#e6edf3;font-weight:600">STM32F103C8T6 "Blue Pill"</td><td>ARM Cortex-M3. Every Fastbit + Miro Samek tutorial uses this chip.</td><td>~₹350</td></tr>
+    <tr><td style="color:#e6edf3;font-weight:600">ST-Link V2 programmer</td><td>Required to flash and debug via SWD. Without this nothing runs.</td><td>~₹350</td></tr>
+    <tr><td style="color:#e6edf3;font-weight:600">CP2102 USB-UART adapter</td><td>See UART output from STM32 on your PC. Essential for all driver work.</td><td>~₹150</td></tr>
+    <tr><td style="color:#e6edf3;font-weight:600">Breadboard + jumper wires</td><td>For wiring sensors in Phase 3+.</td><td>~₹200</td></tr>
+    <tr><td style="color:#e6edf3;font-weight:600">BME280 sensor</td><td>Real I2C/SPI sensor for Phase 6 portfolio project.</td><td>~₹300</td></tr>
+  </table>
+  <div class="ok" style="margin-top:10px">✓ All software is free: STM32CubeIDE, OpenOCD, GDB, VS Code. Buy hardware only when you reach Phase 3 (Month 4).</div>
+  <div class="warn" style="margin-top:10px">⚠️ Do NOT buy a Raspberry Pi yet. You don't need it until Phase 5 (Month 10). Use VirtualBox on your PC for Embedded Linux basics.</div>
+</div>
+
+<!-- 30 QUESTIONS -->
+<div id="questions" class="tab">
+  <div style="font-size:0.85rem;font-weight:600;color:#3fb950;margin-bottom:4px">30 Questions Qualcomm Will Ask</div>
+  <div style="font-size:0.76rem;color:#8b949e;margin-bottom:12px">Prepare all 30. Write your answers in your own words. Then say them out loud.</div>
+  <div style="background:#161b22;border:1px solid #21262d;border-radius:8px;overflow:hidden">
+  <table class="itbl">
+    <tr><th>#</th><th>Question</th><th>Phase to prepare it</th></tr>
+    <tr><td style="color:#8b949e">1</td><td>What is volatile? When must you use it in embedded C?</td><td style="color:#f0916a">Phase 1</td></tr>
+    <tr><td style="color:#8b949e">2</td><td>Difference between const and volatile. Can a variable be both?</td><td style="color:#f0916a">Phase 1</td></tr>
+    <tr><td style="color:#8b949e">3</td><td>What is a pointer to a function? Give an embedded use case.</td><td style="color:#f0916a">Phase 1</td></tr>
+    <tr><td style="color:#8b949e">4</td><td>Explain little-endian vs big-endian with a register read example.</td><td style="color:#f0916a">Phase 1</td></tr>
+    <tr><td style="color:#8b949e">5</td><td>How do you set, clear, toggle, and check a specific bit in a register?</td><td style="color:#f0916a">Phase 1</td></tr>
+    <tr><td style="color:#8b949e">6</td><td>What is a memory-mapped register? Give a concrete STM32 example.</td><td style="color:#e3b341">Phase 2</td></tr>
+    <tr><td style="color:#8b949e">7</td><td>What happens when an interrupt fires on ARM Cortex-M — step by step?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">8</td><td>What is the ARM vector table? Where does it live in memory?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">9</td><td>What is the difference between Handler mode and Thread mode in ARM?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">10</td><td>What is a linker script? What sections does it define?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">11</td><td>What does the startup file do before main() is called?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">12</td><td>What is ISR best practice — what should and should NOT be in an ISR?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">13</td><td>What is DMA? When would you use DMA vs interrupt-driven transfer?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">14</td><td>How do you detect a stack overflow in a bare-metal system?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">15</td><td>What is a watchdog timer? How do you use it in firmware?</td><td style="color:#ff6b4a">Phase 3</td></tr>
+    <tr><td style="color:#8b949e">16</td><td>Explain priority inversion. How does priority inheritance fix it?</td><td style="color:#3fb950">Phase 4</td></tr>
+    <tr><td style="color:#8b949e">17</td><td>Difference between mutex and binary semaphore — when to use which?</td><td style="color:#3fb950">Phase 4</td></tr>
+    <tr><td style="color:#8b949e">18</td><td>What is a context switch? What registers does FreeRTOS save/restore?</td><td style="color:#3fb950">Phase 4</td></tr>
+    <tr><td style="color:#8b949e">19</td><td>What is a race condition in embedded? How do you prevent it?</td><td style="color:#3fb950">Phase 4</td></tr>
+    <tr><td style="color:#8b949e">20</td><td>What is a deadlock? Give a two-task embedded example.</td><td style="color:#3fb950">Phase 4</td></tr>
+    <tr><td style="color:#8b949e">21</td><td>How does the FreeRTOS scheduler decide which task to run next?</td><td style="color:#3fb950">Phase 4</td></tr>
+    <tr><td style="color:#8b949e">22</td><td>Explain the Linux boot sequence: bootloader → kernel → init → userspace.</td><td style="color:#3fb950">Phase 5</td></tr>
+    <tr><td style="color:#8b949e">23</td><td>What is a device tree? Why does Linux use it?</td><td style="color:#3fb950">Phase 5</td></tr>
+    <tr><td style="color:#8b949e">24</td><td>What is cache coherency? When does it matter?</td><td style="color:#3fb950">Phase 5</td></tr>
+    <tr><td style="color:#8b949e">25</td><td>What is the difference between a process and a thread in Linux?</td><td style="color:#3fb950">Phase 5</td></tr>
+    <tr><td style="color:#8b949e">26</td><td>What is mmap? When would firmware use it?</td><td style="color:#3fb950">Phase 5</td></tr>
+    <tr><td style="color:#8b949e">27</td><td>Walk me through your portfolio project architecture. Every design decision.</td><td style="color:#58a6ff">Phase 6</td></tr>
+    <tr><td style="color:#8b949e">28</td><td>What was the hardest bug you debugged in your project? How did you find it?</td><td style="color:#58a6ff">Phase 6</td></tr>
+    <tr><td style="color:#8b949e">29</td><td>Design a firmware update mechanism for a device in the field. What are the risks?</td><td style="color:#58a6ff">Phase 6</td></tr>
+    <tr><td style="color:#8b949e">30</td><td>What don't you know yet that you think is important for this role?</td><td style="color:#58a6ff">All phases</td></tr>
+  </table>
+  </div>
+</div>
+
+<div style="text-align:center;padding:20px;font-size:0.72rem;color:#484f58;border-top:1px solid #21262d;margin-top:20px">
+  Mahesh Senapathi · Started March 31, 2026 · Target: Qualcomm India Firmware Engineer<br>
+  <a href="https://github.com/senapathimaheshEmbedded" target="_blank" style="color:#2ea043">github.com/senapathimaheshEmbedded</a>
+</div>
+
+<script>
+// Day counter
+const start = new Date('2026-03-31');
+const today = new Date();
+const days = Math.max(1, Math.floor((today - start) / 86400000) + 1);
+const total = 548;
+const pct = Math.min(100, Math.round((days / total) * 100));
+document.getElementById('day-count').textContent = days;
+document.getElementById('pct').textContent = pct + '% — Day ' + days + ' of ' + total;
+document.getElementById('pfill').style.width = pct + '%';
+
+// Tab switching
+function show(id, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
